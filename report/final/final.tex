@@ -412,7 +412,7 @@ Cast experience & 1,230 & 9,886 (99\%) & 94 \\
 \end{tabular}
 
 \subsection{Feature pruning}
-With combined features, our feature space size is around 800,000. It takes hours to train a Linear Regression Model using scikit-learn \cite{scikit} on such a large sample space. We did some experiments on feature removal to improve algorithm performance.
+With combined features, our feature space size is around 800,000. It takes many gigabytes of memory to train even simple models with sparse matrices when there are so many features.  In addition, some of our algorithm implementations, like k-means, require dense matrices to train.  Dense matrix representations of about 90,000 features consumed roughly 15GB of memory, making it impractical to include many more features than that.   We did some experiments on feature removal to improve algorithm performance.
 \\
 \par In our experiments, we removed all the features that appear less or equal to $n$ times in the training data before training a model. We measured the number of features left after removal and the standard error on test set.\\
 \begin{center}
@@ -429,16 +429,7 @@ $n$ & Num. features left & Standard Error  \\ [0.5ex] % inserts table
 \end{center}
 \smallskip
 
-\textit{delete or update this paragraph?}
-\par Removing the features that
-appear only once in the training set gives huge improvements on performance
-while maintaining low standard errors on fitting the test set. This makes sense
-because if a
-feature appears only once in the training set, it's highly likely that the
-feature won't appear in the test set, which means that the weight for this feature
-won't affect the result of fitting the test set. Also, according to the experiment,
-increasing the threshold $n$ doesn't give too much performance gain but worsens
-the test error.
+\par Ultimately, we chose to remove features that did not appear at least three times in our development set.  This left us with about 92,000 features, many of which were more general features, like budget, keywords, genre, and cast experience.
 
 \subsection{Principal Component Analysis}
 We ran Principal Component Analysis, PCA, on our features to further reduce
