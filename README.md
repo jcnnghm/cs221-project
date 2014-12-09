@@ -1,5 +1,46 @@
-CS221 Project
-=============
+CS221 Project (Predicting movie ratings)
+========================================
+Authors: Carolyn Au (auc@stanford.edu), Justin Cunningham (jcnnghm@stanford.edu), and Weixiong Zheng (zhengwx@stanford.edu)
+
+
+Code
+----
+
+- core libraries:
+  - cache.py: Caching layer for our feature extractors
+  - config.yaml: Database configuration parameters
+  - helpers.py: Utility code to process features and do error analysis 
+  - movie_filter.py: Generates our test and development movie datasets
+  - session.py: Initiates a session with our local copy of the IMDb database
+- machine learning tools:
+  - feature_creator.py: Generates features using all the feature extractors, outputs data/features.json
+  - fann_data_generator.py: Processes data for the neural network
+  - scikit_kmeans_runner.py: Generates k-means clusters, outputs new feature files for each cluster configuration
+  - sgd_runner.py: Runs linear regression using SGD (modified from class assignment)
+  - scikit_learn_runner.py: Runs linear, logistic and SGD regression using scikit
+  - fann.py: Runs a neural network using FANN
+- analysis tools:
+  - pca_analyzer.py: Performs and analyzes the results of PCA
+  - feature_analysis.py: Analyzes the distribution of each feature extractor
+  - graph.rb: Generates a graph of the neural network
+- feature_extractors: Feature extractors and combinators.
+- models: Description of the IMDb SQL database tables.
+- rotten_tomatoes: Data importer and processor for Rotten Tomatoes movie data.
+
+
+Running the pipeline
+--------------------
+
+runner.sh runs the entire pipeline, first extracting features then each learning algorithm in sequence.
+See requirements.txt for python libraries required to run the pipeline.
+
+- python feature_creator.py --verbose
+- python scikit_kmeans_runner.py --clusters=10
+- python scikit_learn_runner.py --feature-file=data/features_k_means_10.json --save-regularization-stats
+- python sgd_runner.py --feature-file=data/features_k_means_10.json
+- python fann_data_generator.py --feature-file=data/features_k_means_10.json --postfix="-kmeans-10-pca"
+- python fann.py
+
 
 Adding a feature extractor
 --------------------------
@@ -52,24 +93,13 @@ By default, FeatureExtractors are included in the baseline, and not exclusive
 to the oracle.  To add a feature to the oracle, set `oracle = True` in the
 feature extractors class.
 
+
 Setup
 -----
 
 You'll want to install all the packages in requirements.txt.  In addition,
 you should copy config.yaml.example to config.yaml, and change anything
 you need to for your mysql server.
-
-
-Running This
-------------
-
-Just run the feature_creator.py file.
-
-    python feature_creator.py --baseline
-
-ID's for dev and test set will be in data folder, as will features.json.
-
-To skip feature combinators, add --skip_combinators
 
 
 Logging
@@ -82,21 +112,3 @@ Use the python logging module.
 
 By default, it will log in feature_creator.log.  Set `--verbose` to print
 logging messages to stdout.
-
-
-SQLAlchemy
-----------
-
-Pretty solid docs starting at http://docs.sqlalchemy.org/en/rel_0_9/orm/tutorial.html.
-
-
-Weirdness
----------
-
-The mysql char encoding has some issues, so text should be re-encoded before
-it's used.  There's a helper method called `encode` in `helper.py` that can
-do this.  Please use this method, so we can get rid of this
-(or at least work around it consistently).
-
-Caveat: I wrote this quickly and there aren't tests.  There are probably bugs.
-Some stuff could definitely be cleaned up, like session handling and imports.
