@@ -412,24 +412,24 @@ Cast experience & 1,230 & 9,886 (99\%) & 94 \\
 \end{tabular}
 
 \subsection{Feature pruning}
-With combined features, our feature space size is around 800,000. It takes many gigabytes of memory to train even simple models with sparse matrices when there are so many features.  In addition, some of our algorithm implementations, like k-means, require dense matrices to train.  Dense matrix representations of about 90,000 features consumed roughly 15GB of memory, making it impractical to include many more features than that.   We did some experiments on feature removal to improve algorithm performance.
+With combined features, our feature space size is around 800,000. It takes many gigabytes of memory to train even simple models with sparse matrices when there are so many features.  90,000 features consumed roughly 15GB of memory at peak, making it impractical to include many more features than that.   We did some experiments on feature removal to improve algorithm performance.
 \\
-\par In our experiments, we removed all the features that appear less or equal to $n$ times in the training data before training a model. We measured the number of features left after removal and the standard error on test set.\\
+\par In our experiments, we removed all the features that appear less than or equal to $n$ times in the training data before training a model. We measured the number of features left after removal and the standard error on test set.\\
 \begin{center}
 \begin{tabular}{|l| r r|} % columns
 \hline
 $n$ & Num. features left & Standard Error  \\ [0.5ex] % inserts table
 \hline
-0 & 723,000 & N/A \\
-1 & 188,000 & 0.79 \\
-2 & 93,000  & 0.83 \\
-9 & 28,000  & 1.12 \\
+1 & 723,000 & N/A \\
+2 & 188,000 & 0.79 \\
+3 & 93,000  & 0.83 \\
+10 & 28,000  & 1.12 \\
 \hline %inserts single line
 \end{tabular}
 \end{center}
 \smallskip
 
-\par Ultimately, we chose to remove features that did not appear at least three times in our development set.  This left us with about 92,000 features, many of which were more general features, like budget, keywords, genre, and cast experience.
+\par Ultimately, we chose to remove features that did not appear at least three times in our development set, which gave us a much smaller feature space with only slightly higher error.  This left us with about 93,000 features, many of which were more general features, like budget, keywords, genre, and cast experience.
 
 \subsection{Principal Component Analysis}
 We ran Principal Component Analysis, PCA, on our features to further reduce
