@@ -290,7 +290,7 @@ where
 
 To better generalize for cast and crew we had not trained on, we added features that would describe how much experience the cast and crew had.  For the buckets of all Actors, Actresses, Producers, Directors, the group of of all Actors and Actresses, and the entire cast and crew, we calculated the mean number of movies they had previously worked on or appeared in.  We also calculated the 1st, 10th, 25th, 50th, 75th, 90th, and 99th percentiles for each group.
 \begin{center}
-    \scalebox{0.5}{\includegraphics{charts/appearances.eps}}
+    \scalebox{0.55}{\includegraphics{charts/appearances.eps}}
 \end{center}
 
 The total number of movies a person had worked on was capped at 20, and each role-value pair was treated as an indicator feature, with values rounded to the nearest integer.
@@ -307,7 +307,7 @@ The total number of movies a person had worked on was capped at 20, and each rol
 
 Similar to cast and crew experience, we added features that would describe the quality of the cast and crew based on the rating of movies that they had worked on or appeared in previously.  The mean and percentiles approach as described above was also used for cast and crew quality.
 \begin{center}
-    \scalebox{0.45}{\includegraphics{charts/crew_quality.eps}}
+    \scalebox{0.55}{\includegraphics{charts/crew_quality.eps}}
 \end{center}
 
 After the mean or percentile value was calculated, it was rounded to the nearest integer, and along with the role, added as an indicator feature.
