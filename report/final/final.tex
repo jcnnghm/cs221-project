@@ -480,7 +480,7 @@ number between 0 and 1.0, corresponding to an average error of approximately 0.8
 \par Our initial implementation of the neural network was quite slow, taking approximately
 12 hours to complete 100 iterations with a simple topology consisting of one hidden
 layer with 10 neurons.  This is due, in part, to the lack of support for sparse matrices in the FANN library, and the relatively large number of features we were training on.  This slowness made working with the neural network impractical, so we used PCA to reduce the number of features to 5,000 from 93,000, resulting in runtimes near 1 hour.  This feature reduction resulted in a loss of approximately 9\% of the variance in the data, artificially limiting the performance of the network.  \\
-
+\\
 \scalebox{0.55}{\includegraphics{charts/neural_network.eps}}
 \\
 \par Additionally, the neural network was susceptible to severe overfitting.  The FANN library doesn't have much built in support to prevent overfitting; the suggested approach is early stopping.  We did implement early stopping using a simple heuristic that proved to be effective, partitioning the data and stopping when the training error was falling but the test error started rising, after a period of falling.  We were able to get acceptable results using that approach, but the lack of the ability to tune regularization hyperparameters, the limited control provided by early stopping, and the loss of variance reduced the neural networks performance below the performance of simpler, more flexible models.
@@ -540,8 +540,12 @@ algorithms.
 
 \subsection{Features}
 We used three different types of features to train the models, base features, combined features, and computed features. Adding combined features expanded the feature space size by more than 4 times, causing a few models to overfit. To handle overfitting and improve performance, we added a preprocessing step to remove less common features. By removing features that appear less than 3 times across all movies, we effectively reduced the feature space size by a factor of 5. However, one downside of the base features and combined features is they don't generalize too well. A lot of these features only appear a few times through out the whole dataset.
-
+\\
 \par The computed features generalize very well. For example, cast experience is a feature that can be computed for every movie. Adding these computed features really helped to push the boundary of test errors. By adding the computed features, we successfully reduced test errors by more than 4\%.
+
+\section{Conclusion}
+We are able to answer our original question, i.e. we can predict the success of a movie within reasonable error bounds based solely on data prior to its release.
+We found that spending more time working on good features had more impact than trying out more complex algorithms; we achieved our biggest gains by adding generalized features which worked well with regularized SGD. It was also important to find a machine learning library with enough flexibility in its API (or to implement one with the right knobs). We were hampered by our progress using Neural Networks by the limitations of the FANN library.
 
 \section{Future work}
 Our ability to go further with Neural Networks was hampered by the amount of
