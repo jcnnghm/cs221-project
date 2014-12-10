@@ -41,6 +41,10 @@ See requirements.txt for python libraries required to run the pipeline.
 - python fann_data_generator.py --feature-file=data/features_k_means_10.json --postfix="-kmeans-10-pca"
 - python fann.py
 
+Data
+----
+
+Our complete dataset is available at https://www.dropbox.com/s/wlo1gukdegztvk7/cs221movies.sql.gz?dl=0, and is about 1.4GB compressed.  To use it, you'll need to gunzip it, then import it into a mysql database.  Rename `config.yaml.example` to `config.yaml` and customize that file to point at your database.
 
 Adding a feature extractor
 --------------------------
