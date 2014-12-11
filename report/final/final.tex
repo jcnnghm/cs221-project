@@ -324,7 +324,7 @@ After the mean or percentile value was calculated, it was rounded to the nearest
 The k-means cluster for each movie is added to each movie's feature vector.
 Adding just 10 clusters provided a significant performance improvement after
 1,000 iterations of SGD.  The k-means algorithm was initialized with 128 different
-centroid seeds using the k-means++ method, the best result is retained.  Total
+centroid seeds using the k-means++ method; the best result is retained.  Total
 runtime was less than 4 minutes.  All of our algorithms included k-means clusters as features.
 
 \begin{center}
@@ -450,7 +450,7 @@ parameters. The algorithm took 6 seconds to run when the data was represented
 sparsely, and gave a standard error of 0.81.
 \\
 \par Linear regression was somewhat susceptible to overfitting, and is not tunable, so we used
-linear regression primarily to quickly check work in progress,
+linear regression primarily to quickly check work in progress, such as adding new features.
 
 \subsection{Stochastic Gradient Descent}
 
@@ -460,7 +460,7 @@ We obtained the best results running SGD with a regularization constant of 0.01 
 and only 0.38 from our oracle.
 \\
 \subsubsection{Iterations and Regularization}
-We experimented with many different iteration counts and regularization constants, ultimately finding that 100,000 iterations and a regularization constant of 0.01 provided the best results.  Our data was highly susceptible to overfitting.  Using a low number of iterations and either no regularization or a regularization constant $ \lambda <= 0.001 $  provided the best results.
+We experimented with many different iteration counts and regularization constants, ultimately finding that 100,000 iterations and a regularization constant of 0.01 provided the best results.  Our data was highly susceptible to overfitting.  Using a low number of iterations and either no regularization or a regularization constant $ \lambda \leq 0.001 $  provided the best results.
 
 \scalebox{0.55}{\includegraphics{charts/sgd_iterations.eps}}
 \scalebox{0.55}{\includegraphics{charts/sgd_regularization.eps}}
@@ -514,7 +514,7 @@ Oracle              & 0.34 \\
 \section{Analysis}
 
 \subsection{Algorithms}
-We ran two classes of algorithms, linear regression algorithms and neural networks. We found that
+We ran two classes of algorithms: linear regression algorithms and neural networks. We found that
 linear algorithms are quick to train (as little as 60 seconds compared with over 10 hours
 for a neural network without PCA) and are not as susceptible to overfitting when compared to neural networks.
 They are also not as resource intensive to compute.
@@ -538,7 +538,7 @@ case, these compromises result in performance comparable to the linear
 algorithms.
 
 \subsection{Features}
-We used three different types of features to train the models, base features, combined features, and computed features. Adding combined features expanded the feature space size by more than 4 times, causing a few models to overfit. To handle overfitting and improve performance, we added a preprocessing step to remove less common features. By removing features that appear less than 3 times across all movies, we effectively reduced the feature space size by a factor of 5. However, one downside of the base features and combined features is they don't generalize too well. A lot of these features only appear a few times throughout the whole dataset.
+We used three different types of features to train the models: base features, combined features, and computed features. Adding combined features expanded the feature space size by more than 4 times, causing a few models to overfit. To handle overfitting and improve performance, we added a preprocessing step to remove less common features. By removing features that appear less than 3 times across all movies, we effectively reduced the feature space size by a factor of 5. However, one downside of the base features and combined features is they don't generalize too well. A lot of these features only appear a few times throughout the whole dataset.
 \\
 \par The computed features generalize very well. For example, cast experience is a feature that can be computed for every movie. Adding these computed features really helped to push the boundary of test errors. By adding the computed features, we successfully reduced test errors by more than 4\%.
 
