@@ -542,6 +542,14 @@ We used three different types of features to train the models: base features, co
 \\
 \par The computed features generalize very well. For example, cast experience is a feature that can be computed for every movie. Adding these computed features really helped to push the boundary of test errors. By adding the computed features, we successfully reduced test errors by more than 4\%.
 
+\subsection{Limitations}
+
+Our algorithm performs well today, but over time it is likely to perform less well.  Some of our features, like non-generalized cast and some of the release date features will need to be re-trained over time.  For example, if we were predicting a rating for a movie to be released in January 2015, while we have features for January releases, we do not have features for 2015 or January 2015.  
+
+The generalized cast features don't presently capture the importance of an individual to a movie.  An actor that is an extra in a very well rated movie does not necessarily indicate that the actor will have a positive impact if they take a more prominent role in another movie.  Weighting the quality and experience of cast and crew by their importance to each movie they've worked on or appeared in would work substantially better, though our data set is not rich enough to allow us to do this.
+
+Finally, our predictions when cast and crew are relatively unknown, or when well-known cast or crew are in atypical roles, will be inherently noisy.  This could be combated by adding generalized features at the individual level (e.g. attractiveness), but that would require additional data and is likely to be difficult.
+
 \section{Conclusion}
 We are able to answer our original question, i.e. we can predict the success of a movie within reasonable error bounds based solely on data prior to its release.
 We found that spending more time working on good features had more impact than trying out more complex algorithms; we achieved our biggest gains by adding generalized features which worked well with regularized SGD. It was also important to find a machine learning library with enough flexibility in its API (or to implement one with the right knobs). We were hampered by our progress using Neural Networks by the limitations of the FANN library and the computing resources required to process all the features we generated.
