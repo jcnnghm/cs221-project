@@ -71,6 +71,15 @@ class ScikitLearnRunner(object):
         predictions = model.predict(self.predict_feature_matrix)
         logging.info("Predicting using model %s done! Took %s seconds." % (model_name, time.time() - start))
 
+        result_output = {}
+        for i in range(len(self.predict_ids)):
+            k = "movie_id: %d" % self.predict_ids[i]
+            result_output[k] = {}
+            result_output[k]["predicted rating"] = predictions[i]
+            result_output[k]["actual rating"] = self.predict_labels[i]
+        with open('data/%s_result.json' % model_name, 'w') as outfile:
+            outfile.write(json.dumps(result_output, indent=4, encoding="utf-8"))
+
         logging.info("Test error:")
         test_error = helpers.standard_eror(predictions, self.predict_labels)
 
