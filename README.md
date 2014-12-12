@@ -28,14 +28,6 @@ Code
 - rotten_tomatoes: Data importer and processor for Rotten Tomatoes movie data.
 
 
-Data
-----
-
-Our complete dataset is available at https://www.dropbox.com/s/wlo1gukdegztvk7/cs221movies.sql.gz?dl=0, and is about 1.4GB compressed.  To use it, you'll need to gunzip it, then import it into a mysql database.  Rename `config.yaml.example` to `config.yaml` and customize that file to point at your database.
-
-For submission, we have a compressed file at data/data.zip
-
-
 Setup
 -----
 
@@ -48,7 +40,7 @@ you need to for your mysql server.
 Running the pipeline
 --------------------
 
-runner.sh runs the entire pipeline (reading from the SQL db), first extracting features then each learning algorithm in sequence.
+runner.sh runs the entire pipeline (including reading from the SQL db), first extracting features then each learning algorithm in sequence.
 See requirements.txt for python libraries required to run the pipeline.
 
 - python feature_creator.py --verbose
@@ -58,20 +50,19 @@ See requirements.txt for python libraries required to run the pipeline.
 - python fann_data_generator.py --feature-file=data/features_k_means_10.json --postfix="-kmeans-10-pca"
 - python fann.py
 
-For submission, we have precomputed features which is in data/data.zip. To run our code for submission:
 
-- unzip data/data.zip
-- python scikit_kmeans_runner.py --clusters=10
-- python scikit_learn_runner.py --feature-file=data/features_k_means_10.json --save-regularization-stats
-- python sgd_runner.py --feature-file=data/features_k_means_10.json
-- python fann_data_generator.py --feature-file=data/features_k_means_10.json --postfix="-kmeans-10-pca"
-- python fann.py
+Data
+----
+
+Our complete dataset is available at https://www.dropbox.com/s/wlo1gukdegztvk7/cs221movies.sql.gz?dl=0, and is about 1.4GB compressed.  To use it, you'll need to gunzip it, then import it into a mysql database.  Rename `config.yaml.example` to `config.yaml` and customize that file to point at your database.
+
+For submission, we have a compressed file at data.zip which is the output of our feature_creator.py system on a reduced set of movies.
 
 
 Example Data and Evaluation Score
 ---------------------------------
 
-In data.zip, we include data for all 1977 movies in the test set. Test error
+In data.zip, we include the resulting features for all 1977 movies in the test set. Test error
 on these movies is 0.72. All predicted rating and actual rating for these
 movies are in `example_data_eval_scores.json` for reference.
 
